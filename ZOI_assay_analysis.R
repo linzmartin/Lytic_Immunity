@@ -1,6 +1,6 @@
 #lytic immunity - ZOI analysis
 
-#last updated: 06/13/23 LEM
+#last updated: 06/30/23 LEM
 ################################################
 # clear existing workspace
 rm(list = ls(all = TRUE))
@@ -39,7 +39,7 @@ library(ggpubr)
 
 
 #import the data:
-ZOI_data <- read_xlsx("ZOI_assay_sample_log_061323_LEM.xlsx")
+ZOI_data <- read_xlsx("ZOI_assay_sample_log_063023_LEM.xlsx")
 
 str(ZOI_data)
 head(ZOI_data)
@@ -104,7 +104,7 @@ ZOI_summary <- ZOI_data %>%
             #Age = Age,
             #Treatment=Treatment,
             #Sample_ID = Sample_ID,
-           # Technical_Rep = Technical_Rep, 
+            Technical_Rep = Technical_Rep, 
             #E_coli_infection = E_coli_infection,
             #M_luteus_infection = M_luteus_infection,
             mean_diameter = mean(Diameter_avg),
@@ -171,7 +171,24 @@ ZOI_summary_bioreps <- ZOI_summary %>%
 
 ZOI_summary_bioreps <- as.data.frame(ZOI_summary_bioreps)
 
+###
+ZOI_summary <- ZOI_data %>%
+  group_by(Treatment,Age,Temperature,Sample_ID) %>%
+  reframe(#Temperature = Temperature, 
+    #Age = Age,
+    #Treatment=Treatment,
+    #Sample_ID = Sample_ID,
+    #Technical_Rep = Technical_Rep, 
+    #E_coli_infection = E_coli_infection,
+    #M_luteus_infection = M_luteus_infection,
+    mean_diameter = mean(Diameter_avg),
+    mean_area = mean(ZOI_area),
+    sd_diameter = sd(Diameter_avg),
+    n_diameter = n(),
+    SE_diameter = sd(Diameter_avg)/sqrt(n()),
+    SE_area = sd(ZOI_area)/sqrt(n()))
 
+ZOI_summary <- as.data.frame(ZOI_summary)
 ####
 head(ZOI_data)
 ZOI_data %>% ggplot(aes(x=Temperature,y=ZOI_area))+
@@ -190,6 +207,15 @@ ZOI_data %>% ggplot(aes(x=Temperature,y=ZOI_area))+
   labs(title="Zone of Inhibition of Hemolymph",
        x="Temperature")+
   ylab(expression("Area of the Zone of Inhibition (mm2)"))+
+  theme_bw()
+
+ZOI_data %>% ggplot(aes(x=Temperature,y=Diameter_avg))+
+  geom_point(color=ZOI_data$Technical_Rep)+ geom_boxplot()+
+  scale_shape_identity(guide="legend")+
+  facet_grid(Treatment~Age, labeller = labeller(Age=agelabs, Temperature=templabs, Treatment=treatlabs))+
+  labs(title="Zone of Inhibition of Hemolymph",
+       x="Temperature")+
+  ylab(expression("Diameter of Zone of Inhibition (mm)"))+
   theme_bw()
 
 
@@ -327,11 +353,11 @@ ZOI_summary_bioreps %>%
 ZOI_italic <- ZOI_data
 
 ZOI_italic$Treatment <- factor(ZOI_italic$Treatment,    # Change factor labels
-                                           labels = c("Naïve","Injury",
+                                           labels = c("Naïve","LB-Injury",
                                                       "italic(`E. coli`)",
                                                       "italic(`M. luteus`)"))
-ZOI_italic$Age <- factor(ZOI_italic$Age,
-                                     labels = c("`1 day`","`5 days`","`10 days`","`15 days`"))
+#ZOI_italic$Age <- factor(ZOI_italic$Age,
+ #                                    labels = c("`1 day`","`5 days`","`10 days`","`15 days`"))
 ZOI_italic$Age <- factor(ZOI_italic$Age,
                                      labels = c("1","5","10","15"))
 
@@ -343,11 +369,11 @@ levels(ZOI_italic$Treatment)
 
 ZOI_summary_bioreps_italic <- ZOI_summary_bioreps
 ZOI_summary_bioreps_italic$Treatment <- factor(ZOI_summary_bioreps_italic$Treatment,    # Change factor labels
-                               labels = c("Naïve","Injury",
+                               labels = c("Naïve","LB-Injury",
                                           "italic(`E. coli`)",
                                           "italic(`M. luteus`)"))
-ZOI_summary_bioreps_italic$Age <- factor(ZOI_summary_bioreps_italic$Age,
-                         labels = c("`1 day`","`5 days`","`10 days`","`15 days`"))
+#ZOI_summary_bioreps_italic$Age <- factor(ZOI_summary_bioreps_italic$Age,
+ #                        labels = c("`1 day`","`5 days`","`10 days`","`15 days`"))
 ZOI_summary_bioreps_italic$Age <- factor(ZOI_summary_bioreps_italic$Age,
                          labels = c("1","5","10","15"))
 
@@ -357,7 +383,9 @@ ZOI_summary_bioreps_italic$Temperature <- factor(ZOI_summary_bioreps_italic$Temp
 ####
 #plots with italic labels (use these!):
 
+
 #mean diameter with jitter for points:
+png(filename = "ZOI_diameter_jitter.png", width = 5, height = 4, units = "in", res = 300)
 ZOI_summary_bioreps_italic %>%
   group_by(Treatment)%>%
   ggplot(aes(x=Age,y=mean_diameter_all))+
@@ -373,16 +401,20 @@ ZOI_summary_bioreps_italic %>%
                 width=0.8,position=position_dodge(0.9),
                 color="black")+
   #scale_x_discrete(limits = c("Naïve","LB","E_coli","M_luteus"),labels=c("Naïve","LB","E. coli","M. luteus"))+
-  ylab(expression("Mean diameter of ZOI"~(mm)~""))+ 
-  theme_bw()+
+  ylab(expression("Mean diameter of ZOI"~(mm)~""))+ xlab("Age (days)") +
+  theme_pubr()+
+  #theme_bw()+
   #theme(text = element_text(size = 26))+
   #theme(axis.text.x = element_text(angle=45, hjust=1))+
   theme(legend.position = "none")+
-  geom_jitter(data=ZOI_italic, aes(x=Age,y=Diameter_avg),
-              position = position_dodge(0.5),color=ZOI_italic$Technical_Rep)
-
+  geom_jitter(data=ZOI_italic, aes(x=Age,y=Diameter_avg),#color=ZOI_italic$Technical_Rep,
+              position = position_dodge(0.5))+
+  theme(panel.background = element_rect(fill = NA, color = "black"))+
+  theme(panel.spacing = unit(0.5, "lines"))
+dev.off()
 
 #mean area with jitter for points:
+png(filename = "ZOI_area_jitter.png", width = 5, height = 4, units = "in", res = 300)
 ZOI_summary_bioreps_italic %>%
   group_by(Treatment)%>%
   ggplot(aes(x=Age,y=mean_area_all))+
@@ -399,20 +431,413 @@ ZOI_summary_bioreps_italic %>%
                 color="black")+
   #scale_x_discrete(limits = c("Naïve","LB","E_coli","M_luteus"),labels=c("Naïve","LB","E. coli","M. luteus"))+
   ylab(expression("Mean area of ZOI"~(mm^2)~""))+ 
-  theme_bw()+
+  xlab("Age (days)") +
+  theme_pubr()+
   #theme(text = element_text(size = 26))+
   #theme(axis.text.x = element_text(angle=45, hjust=1))+
   theme(legend.position = "none")+
-  geom_jitter(data=ZOI_italic, aes(x=Age,y=ZOI_area),
-              position = position_dodge(0.5),color=ZOI_italic$Technical_Rep)
-
-
+  geom_jitter(data=ZOI_italic, aes(x=Age,y=ZOI_area),#color=ZOI_italic$Technical_Rep,
+              position = position_dodge(0.5))+
+  theme(panel.background = element_rect(fill = NA, color = "black"))+
+  theme(panel.spacing = unit(0.5, "lines"))
+dev.off()
 #########################################################################
 
 #check data for normality:
 
+normtestresults <- ZOI_data %>%
+  # mutate(mean_area = Delta_OD) %>%
+  group_by(Temperature, Treatment) %>%
+  mutate(N_Samples = n()) %>%
+  nest() %>%
+  mutate(Shapiro = map(data, ~ shapiro.test(.x$ZOI_area)))
+head(normtestresults)
+
+library(broom)
+normtest.glance <- normtestresults %>%
+  mutate(glance_shapiro = Shapiro %>% map(glance)) %>%
+  unnest(glance_shapiro)
+normtest.glance #values are not normal!
+
+boxplot(ZOI_area ~ Temperature+Age+Treatment,
+        col=c("white","lightgray"),
+        data = ZOI_data)
+
+ZOI_data %>%
+  ggplot(aes(x=Temperature,y=ZOI_area,color=Age))+
+  facet_grid(Treatment~Age, labeller = labeller(Age=agelabs, Temperature=templabs))+
+  labs(x="Temperature (˚C)")+
+  #ylab(expression(~italic("E. coli")~" Norm Mel Area"))+
+  geom_boxplot(notch = FALSE)+
+  theme_bw()+
+  #geom_dotplot(binaxis='y', stackdir='center', dotsize=0.5)+
+  theme(legend.position = "none")
+
+library(rcompanion)
+plotNormalHistogram(ZOI_data$Diameter_avg)
+ggplot(ZOI_data, aes((Diameter_avg))) + geom_histogram()
+
+plotNormalHistogram(ZOI_data$ZOI_area)
+ggplot(ZOI_data, aes((ZOI_area))) + geom_histogram()
+
+
 #log-transform values
 
-#model + anova
+ZOI_data$log_area <- log(ZOI_data$ZOI_area)
 
-#posthoc
+ggplot(ZOI_data, aes(log(ZOI_area))) + geom_histogram()
+
+#ggplot(ZOI_data, aes(log(ZOI_area+0.1))) + geom_histogram()
+
+
+#model + anova
+library(lme4)
+lm_full <- lmer(log_area ~ Temperature+Age+Treatment + 
+                  Temperature*Age+
+                  Temperature*Treatment+
+                  Age*Treatment+
+                  Temperature*Age*Treatment+
+              (1|Sample_ID)+(1|Plate_ID)+(1|Batch_Number),
+            data=ZOI_data,
+            REML=FALSE)
+
+summary(lm_full) #can possibly drop a random effect
+Anova(lm_full,type=2,test.statistic = "Chisq") #can't seem to drop any main or interactive effects
+plot(lm_full) #mostly random
+
+drop1(lm_full,test="Chisq") #signif - cannot remove 3way or any below
+
+library(lmerTest)
+rand(lm_full)#can get rid of sample ID and plate ID
+
+##
+
+lm_mod1 <- lmer(log_area ~ Temperature+Age+Treatment + 
+                   Temperature*Age+
+                   Temperature*Treatment+
+                   Age*Treatment+
+                   Temperature*Age*Treatment+
+                  # (1|Sample_ID)+
+                  #(1|Plate_ID)+
+                  (1|Batch_Number),
+                 data=ZOI_data,
+                 REML=FALSE)
+
+summary(lm_mod1)
+plot(lm_mod1)
+Anova(lm_mod1,type=2,test.statistic = "Chisq") 
+
+##################
+#confidence intervals for model estimates:
+confint(lm_mod1)
+exp(confint(lm_mod1))
+
+library("merDeriv")
+library("parameters")
+modelvalues <- parameters::model_parameters(lm_mod1, exponentiate = TRUE)
+modelvalues
+
+modelvalues<- as.data.frame(modelvalues)
+
+#####################
+#what does continuous data look like?
+
+ZOIcontinuous <- ZOI_data
+
+ZOIcontinuous$Temperature <- as.numeric(ZOIcontinuous$Temperature)
+ZOIcontinuous$Age <- as.numeric(ZOIcontinuous$Age)
+
+ggplot(ZOIcontinuous, aes(log(ZOI_area))) + geom_histogram()
+
+lm_full_continuous <- lmer(log_area ~ Temperature+Age+Treatment + 
+                  Temperature*Age+
+                  Temperature*Treatment+
+                  Age*Treatment+
+                  Temperature*Age*Treatment+
+                 # (1|Sample_ID)+
+                   # (1|Plate_ID)+
+                   (1|Batch_Number),
+                data=ZOI_data,
+                REML=FALSE)
+
+plot(lm_full_continuous)
+
+summary(lm_full_continuous)
+
+Anova(lm_full_continuous,type=2,test.statistic = "Chisq") 
+
+#basically the same thing
+
+
+######################
+
+#stratify categorical by treatment:
+
+Naive_ZOI <- subset(ZOI_data,Treatment == "Naïve")
+LB_ZOI <- subset(ZOI_data,Treatment == "LB")
+Ecoli_ZOI <- subset(ZOI_data,Treatment == "E_coli")
+Mlut_ZOI <- subset(ZOI_data,Treatment == "M_luteus")
+
+#try analysis by treatment:
+
+lmer_Naive_1 <- lmer(log_area ~ Temperature+
+                       Age + 
+                       Temperature*Age+
+                        (1|Sample_ID)+
+                       (1|Plate_ID)+
+                       (1|Batch_Number),
+                     data=Naive_ZOI,
+                     REML=FALSE)
+
+summary(lmer_Naive_1)
+
+rand(lmer_Naive_1) #drop all random effects
+
+lm_Naive_2 <- lm(log_area ~ Temperature+
+                   Age + 
+                   Temperature*Age,
+                 data=Naive_ZOI)
+
+summary(lm_Naive_2)
+plot(lm_Naive_2)
+Anova(lm_Naive_2,type=2)
+
+drop1(lm_Naive_2)
+
+lm_Naive_3 <- lm(log_area ~ Temperature+
+                   Age,
+                 data=Naive_ZOI)
+anova(lm_Naive_2,lm_Naive_3)
+summary(lm_Naive_3)
+
+plot(lm_Naive_3)
+Anova(lm_Naive_3,type=2)
+#temp affects naive, but not age or interaction
+
+#
+lmer_LB_1 <- lmer(log_area ~ Temperature+
+                       Age + 
+                       Temperature*Age+
+                       (1|Sample_ID)+
+                       (1|Plate_ID)+
+                       (1|Batch_Number),
+                     data=LB_ZOI,
+                     REML=FALSE)
+
+summary(lmer_LB_1)
+rand(lmer_LB_1)
+
+lm_LB_2 <- lm(log_area ~ Temperature+
+                   Age + 
+                   Temperature*Age,
+                 data=LB_ZOI)
+
+summary(lm_LB_2)
+plot(lm_LB_2)
+Anova(lm_LB_2,type=2)
+drop1(lm_LB_2)
+
+lm_LB_3 <- lm(log_area ~ Temperature+
+                Age,
+                #Temperature*Age,
+              data=LB_ZOI)
+
+summary(lm_LB_3)
+plot(lm_LB_3)
+
+anova(lm_LB_2,lm_LB_3)
+AIC(lm_LB_2,lm_LB_3)
+
+#Age affects injury but not temp or interaction
+
+
+#infection:
+lmer_Ecoli_1 <- lmer(log_area ~ Temperature+
+                       Age + 
+                       Temperature*Age+
+                       (1|Sample_ID)+
+                       (1|Plate_ID)+
+                       (1|Batch_Number),
+                     data=Ecoli_ZOI,
+                     REML=FALSE)
+
+summary(lmer_Ecoli_1)
+
+rand(lmer_Ecoli_1) #get rid of sample ID and batch number
+
+
+lmer_Ecoli_2 <- lmer(log_area ~ Temperature+
+                       Age + 
+                       Temperature*Age+
+                       #(1|Sample_ID)+
+                       (1|Plate_ID),
+                       #(1|Batch_Number),
+                     data=Ecoli_ZOI,
+                     REML=FALSE)
+
+summary(lmer_Ecoli_2)
+Anova(lmer_Ecoli_2,type=2)
+plot(lmer_Ecoli_2)
+
+#temp and int of temp and age have impact on E. coli zoi
+
+
+#
+lmer_Mlut_1 <- lmer(log_area ~ Temperature+
+                       Age + 
+                       Temperature*Age+
+                       (1|Sample_ID)+
+                       (1|Plate_ID)+
+                       (1|Batch_Number),
+                     data=Mlut_ZOI,
+                     REML=FALSE)
+
+summary(lmer_Mlut_1)
+
+rand(lmer_Mlut_1) #get rid of plate ID
+
+lmer_Mlut_2 <- lmer(log_area ~ Temperature+
+                      Age + 
+                      Temperature*Age+
+                      (1|Sample_ID)+
+                     # (1|Plate_ID)+
+                      (1|Batch_Number),
+                    data=Mlut_ZOI,
+                    REML=FALSE)
+
+summary(lmer_Mlut_2)
+
+plot(lmer_Mlut_2)
+
+Anova(lmer_Mlut_2)
+drop1(lmer_Mlut_2)
+
+lmer_Mlut_3 <- lmer(log_area ~ Temperature+
+                      Age + 
+                      #Temperature*Age+
+                      (1|Sample_ID)+
+                      # (1|Plate_ID)+
+                      (1|Batch_Number),
+                    data=Mlut_ZOI,
+                    REML=FALSE)
+
+summary(lmer_Mlut_3)
+
+plot(lmer_Mlut_3)
+
+Anova(lmer_Mlut_3)
+########################
+
+
+#################################
+#################################
+
+#import the data:
+gene_expression_data <- read_xlsx("lytic_expression.xlsx",sheet="Cecropin_ref")
+
+str(gene_expression_data)
+
+gene_expression_data$Age <- as.factor(gene_expression_data$Age)
+gene_expression_data$Temperature <- as.factor(gene_expression_data$Temperature)
+gene_expression_data$Treatment <- as.factor(gene_expression_data$Treatment)
+gene_expression_data$Gene <- as.factor(gene_expression_data$Gene)
+
+str(gene_expression_data)
+gene_expression_data <- as.data.frame(gene_expression_data)
+
+
+
+###########
+#make Naive and 1day the reference groups:
+
+#relevel treatment to make Naive come first:
+gene_expression_data <- gene_expression_data %>%
+  mutate(Treatment = fct_relevel(Treatment, 
+                                 "Naïve","Live_Ecoli"))
+
+gene_expression_data <- gene_expression_data %>%
+  mutate(Age = fct_relevel(Age, "1","10"))
+
+#find average of two trials:
+
+gene_avg_summary <- gene_expression_data %>%
+  group_by(Treatment,Age,Temperature,Gene)%>%
+  reframe(meanexp = mean(Relative_Expression),
+    sd_exp = sd(Relative_Expression),
+    n_exp = n(),
+    SE_exp = sd(Relative_Expression)/sqrt(n()))
+
+gene_avg_summary <- as.data.frame(gene_avg_summary)
+str(gene_avg_summary)
+    
+
+#italicize:
+##
+gene_expression_data_italic <- gene_expression_data
+
+gene_expression_data_italic$Treatment <- factor(gene_expression_data_italic$Treatment,    # Change factor labels
+                               labels = c("Naïve",
+                                          "italic(`E. coli`)"))
+gene_expression_data_italic$Age <- factor(gene_expression_data_italic$Age,
+                         labels = c("1","10"))
+
+gene_expression_data_italic$Temperature <- factor(gene_expression_data_italic$Temperature,
+                                 labels = c("`27˚C`","`30˚C`"))
+
+
+gene_avg_summary_italic <- gene_avg_summary
+gene_avg_summary_italic$Treatment <- factor(gene_avg_summary_italic$Treatment,    # Change factor labels
+                                                labels = c("Naïve",
+                                                           "italic(`E. coli`)"))
+gene_avg_summary_italic$Age <- factor(gene_avg_summary_italic$Age,
+                                          labels = c("1","10"))
+
+gene_avg_summary_italic$Temperature <- factor(gene_avg_summary_italic$Temperature,
+                                                  labels = c("`27˚C`","`30˚C`"))
+
+
+
+####
+#plots with italic labels (use these!):
+
+treatlabs <-c("E. coli","Naïve")
+names(treatlabs)<-c("E_coli","Naïve")
+
+#labels:
+gene_avg_summary_italic <- gene_avg_summary
+gene_avg_summary_italic$Treatment <- factor(gene_avg_summary_italic$Treatment,    # Change factor labels
+                                            labels = c("Naïve",
+                                                       "italic(`E. coli`)"))
+gene_avg_summary_italic$Age <- factor(gene_avg_summary_italic$Age,
+                                      labels = c("1","10"))
+
+gene_avg_summary_italic$Temperature <- factor(gene_avg_summary_italic$Temperature,
+                                              labels = c("`27˚C`","`30˚C`"))
+
+
+gene_avg_summary_italic$Gene <- factor(gene_avg_summary_italic$Gene,
+                                       labels=c("italic(`CECA`)",
+                                       "italic(`RPS17`)"))
+
+png(filename = "gene_expression_cecropin.png", width = 5, height = 4, units = "in", res = 300)
+gene_avg_summary_italic %>%
+  group_by(Gene)%>%
+  ggplot(aes(x=Age,y=meanexp))+
+  geom_bar(aes(fill = Treatment),
+           stat = "identity", 
+           position = position_dodge(1),
+           width = 0.8) +
+  scale_fill_manual(name="Treatment",
+                    labels=c("Naïve", expression(italic("E. coli"))), 
+                    values=c("tomato2", "darkturquoise"))+
+  facet_grid(Gene~Temperature,labeller = label_parsed)+
+  geom_errorbar(aes(ymin=meanexp - SE_exp,
+                    ymax=meanexp + SE_exp,
+                    group=Treatment),
+                width=0.5,position=position_dodge(1),
+                color="black")+
+  ylab("Relative Gene Expression")+ 
+  xlab("Age (days)") +
+  theme_pubr()+
+  theme(legend.position = "right")
+dev.off()
