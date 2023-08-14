@@ -1,0 +1,4 @@
+                          Sum Sq Df   F value    Pr(>F)
+Temperature_centered  0.06564428  1 0.1212919 0.7289671
+Age_centered          0.41934344  1 0.7748268 0.3825581
+Residuals            29.76650816 55        NA        NA

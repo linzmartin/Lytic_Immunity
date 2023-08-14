@@ -1,0 +1,3 @@
+                          Chisq Df  Pr(>Chisq)
+Temperature_centered 9.67496924  1 0.001867954
+Age_centered         0.06361071  1 0.800877484

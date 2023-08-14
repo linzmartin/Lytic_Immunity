@@ -1,0 +1,21 @@
+
+Call:
+lm(formula = log(ZOI_area) ~ Temperature_centered + Age_centered, 
+    data = LB_ZOI)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1.9536 -0.3120  0.0637  0.4815  1.4681 
+
+Coefficients:
+                     Estimate Std. Error t value Pr(>|t|)    
+(Intercept)           1.86431    0.09675  19.270   <2e-16 ***
+Temperature_centered  0.03397    0.09754   0.348    0.729    
+Age_centered          0.08523    0.09683   0.880    0.383    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.7357 on 55 degrees of freedom
+Multiple R-squared:  0.01486,	Adjusted R-squared:  -0.02096 
+F-statistic: 0.4149 on 2 and 55 DF,  p-value: 0.6624
+
