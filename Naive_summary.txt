@@ -1,30 +1,31 @@
-Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite's method [
-lmerModLmerTest]
-Formula: log(ZOI_area) ~ Temperature_centered + Age_centered + (1 | Batch_Number)
+Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite's
+  method [lmerModLmerTest]
+Formula: 
+log(ZOI_area) ~ Temperature_centered + Age_centered + (1 | Batch_Number)
    Data: Naive_ZOI
 
      AIC      BIC   logLik deviance df.resid 
-   132.7    143.2    -61.3    122.7       56 
+   188.2    199.7    -89.1    178.2       69 
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--3.1527 -0.4689  0.2191  0.5371  1.8486 
+-3.3270 -0.3356  0.0648  0.5382  2.0219 
 
 Random effects:
  Groups       Name        Variance Std.Dev.
- Batch_Number (Intercept) 0.09737  0.3120  
- Residual                 0.39077  0.6251  
-Number of obs: 61, groups:  Batch_Number, 5
+ Batch_Number (Intercept) 0.1360   0.3688  
+ Residual                 0.5844   0.7645  
+Number of obs: 74, groups:  Batch_Number, 6
 
 Fixed effects:
                      Estimate Std. Error       df t value Pr(>|t|)    
-(Intercept)           2.11180    0.16196  4.73130  13.039 6.88e-05 ***
-Temperature_centered  0.26214    0.08428 57.61497   3.110   0.0029 ** 
-Age_centered          0.02063    0.08180 58.56498   0.252   0.8018    
+(Intercept)           2.04106    0.17706  6.20175  11.527 2.03e-05 ***
+Temperature_centered  0.22564    0.09290 70.38774   2.429   0.0177 *  
+Age_centered          0.10746    0.09202 72.11738   1.168   0.2467    
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Correlation of Fixed Effects:
             (Intr) Tmprt_
-Tmprtr_cntr -0.023       
-Age_centerd  0.017 -0.089
+Tmprtr_cntr -0.016       
+Age_centerd  0.006 -0.084

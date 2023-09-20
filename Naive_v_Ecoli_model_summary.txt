@@ -1,0 +1,51 @@
+Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite's
+  method [lmerModLmerTest]
+Formula: log(ZOI_area) ~ poly(Temperature_centered, 2) + Age_centered +  
+    Treatment + Temperature_centered * Age_centered + Temperature_centered *  
+    Treatment + (1 | Sample_ID) + (1 | Seeded_plates_OD)
+   Data: Naive_and_Ecoli
+
+     AIC      BIC   logLik deviance df.resid 
+   361.8    392.1   -170.9    341.8      143 
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.20413 -0.33187  0.07848  0.46655  1.99374 
+
+Random effects:
+ Groups           Name        Variance Std.Dev.
+ Sample_ID        (Intercept) 0.2396   0.4895  
+ Seeded_plates_OD (Intercept) 0.1262   0.3553  
+ Residual                     0.2816   0.5306  
+Number of obs: 153, groups:  Sample_ID, 134; Seeded_plates_OD, 6
+
+Fixed effects:
+                                      Estimate Std. Error        df t value
+(Intercept)                            2.06092    0.17035   8.59086  12.098
+poly(Temperature_centered, 2)1         2.83417    1.09007 126.63395   2.600
+poly(Temperature_centered, 2)2        -2.95095    0.81601 132.05395  -3.616
+Age_centered                           0.04084    0.06643 124.79781   0.615
+TreatmentE_coli                        0.85662    0.12383 126.17330   6.918
+Age_centered:Temperature_centered     -0.13114    0.06456 121.67080  -2.031
+TreatmentE_coli:Temperature_centered  -0.54859    0.12645 122.53461  -4.339
+                                     Pr(>|t|)    
+(Intercept)                          1.09e-06 ***
+poly(Temperature_centered, 2)1       0.010430 *  
+poly(Temperature_centered, 2)2       0.000424 ***
+Age_centered                         0.539822    
+TreatmentE_coli                      2.05e-10 ***
+Age_centered:Temperature_centered    0.044412 *  
+TreatmentE_coli:Temperature_centered 2.97e-05 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+            (Intr) p(T_,2)1 p(T_,2)2 Ag_cnt TrtmE_ Ag_:T_
+ply(Tm_,2)1 -0.030                                       
+ply(Tm_,2)2 -0.017 -0.002                                
+Age_centerd -0.009 -0.033   -0.138                       
+TretmntE_cl -0.363  0.033   -0.003    0.078              
+Ag_cntrd:T_ -0.004 -0.071    0.051    0.115  0.088       
+TrtmntE_:T_  0.020 -0.702    0.050    0.100  0.009  0.085
+fit warnings:
+fixed-effect model matrix is rank deficient so dropping 1 column / coefficient

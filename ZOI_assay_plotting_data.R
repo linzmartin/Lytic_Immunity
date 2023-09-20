@@ -99,6 +99,9 @@ ZOI_data <- subset(ZOI_data, Treatment != "Water_control")
 
 str(ZOI_data)
 
+
+
+
 #summary stats:
 
 ZOI_summary <- ZOI_data %>%

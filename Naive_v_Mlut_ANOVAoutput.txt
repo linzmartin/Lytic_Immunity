@@ -1,0 +1,8 @@
+                                       Chisq Df   Pr(>Chisq)
+poly(Temperature_centered, 2)     15.4575269  2 4.399878e-04
+poly(Age_centered, 2)              8.8204803  2 1.215226e-02
+Treatment                         47.8385421  1 4.628039e-12
+Temperature_centered                      NA  0           NA
+Age_centered                              NA  0           NA
+Temperature_centered:Age_centered  0.3737946  1 5.409431e-01
+Treatment:Temperature_centered     6.3308035  1 1.186585e-02
