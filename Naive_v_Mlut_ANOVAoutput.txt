@@ -1,8 +1,13 @@
-                                       Chisq Df   Pr(>Chisq)
-poly(Temperature_centered, 2)     15.4575269  2 4.399878e-04
-poly(Age_centered, 2)              8.8204803  2 1.215226e-02
-Treatment                         47.8385421  1 4.628039e-12
-Temperature_centered                      NA  0           NA
-Age_centered                              NA  0           NA
-Temperature_centered:Age_centered  0.3737946  1 5.409431e-01
-Treatment:Temperature_centered     6.3308035  1 1.186585e-02
+Analysis of Deviance Table (Type II Wald chisquare tests)
+
+Response: log(ZOI_area)
+                                    Chisq Df Pr(>Chisq)    
+poly(Temperature_centered, 2)     18.8011  2  8.268e-05 ***
+poly(Age_centered, 2)              3.9720  2    0.13724    
+Treatment                         58.6547  1  1.879e-14 ***
+Temperature_centered                       0               
+Age_centered                               0               
+Temperature_centered:Age_centered  0.4568  1    0.49910    
+Treatment:Temperature_centered     6.2622  1    0.01233 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1

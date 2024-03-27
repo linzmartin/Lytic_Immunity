@@ -78,6 +78,9 @@ ZOI_data <- subset(ZOI_data, Treatment != "Water_control")
 
 str(ZOI_data)
 
+ZOI_data$Temperature <- as.factor(ZOI_data$Temperature)
+ZOI_data$Age <- as.factor(ZOI_data$Age)
+
 #############
 ZOI_wateronly 
 
@@ -110,6 +113,7 @@ str(ZOI_sum_allgroups)
 ZOI_sum_allgroups$Age <- as.factor(ZOI_sum_allgroups$Age)
 ZOI_sum_allgroups$Temperature <- as.factor(ZOI_sum_allgroups$Temperature)
 
+###########
 #labels:
 #italicize:
 ##
@@ -222,3 +226,187 @@ ZOI_sum_allgroups_italic %>%
   theme(panel.background = element_rect(fill = NA, color = "black"))+
   theme(panel.spacing = unit(0.5, "lines"))
 dev.off()
+
+
+##########################################################################
+
+head(ZOI_data)
+
+ZOI_Temperature <- ZOI_data %>%
+  group_by(Treatment,Temperature) %>%
+  reframe(
+    mean_area_all = mean(ZOI_area),
+    n_all = n(),
+    SE_area_all = sd(ZOI_area)/sqrt(n()))
+
+str(ZOI_Temperature)
+
+ZOI_Age <- ZOI_data %>%
+  group_by(Treatment,Age) %>%
+  reframe(
+    mean_area_all = mean(ZOI_area),
+    n_all = n(),
+    SE_area_all = sd(ZOI_area)/sqrt(n()))
+
+str(ZOI_Age)
+
+ZOI_Treatment <- ZOI_data %>%
+  group_by(Treatment) %>%
+  reframe(
+    mean_area_all = mean(ZOI_area),
+    n_all = n(),
+    SE_area_all = sd(ZOI_area)/sqrt(n()))
+
+str(ZOI_Treatment)
+
+
+#graph by main effects:
+ZOI_Temperature_italics <- ZOI_Temperature
+ZOI_Age_italics <-ZOI_Age
+ZOI_Treatment_italics <- ZOI_Treatment
+
+ZOI_Temperature_italics$Treatment <- factor(ZOI_Temperature_italics$Treatment,    # Change factor labels
+                                                                labels = c("Naïve","Injury",
+                                                                           "italic(`E. coli`)",
+                                                                           "italic(`M. luteus`)"))
+
+ZOI_Age_italics$Treatment <- factor(ZOI_Age_italics$Treatment,    # Change factor labels
+                                            labels = c("Naïve","Injury",
+                                                       "italic(`E. coli`)",
+                                                       "italic(`M. luteus`)"))
+
+ZOI_Treatment_italics$Treatment <- factor(ZOI_Treatment_italics$Treatment,    # Change factor labels
+                                          labels = c("Naïve","LB",
+                                                     "E_coli",
+                                                     "M_luteus"))
+
+
+
+png(filename = "ZOI_TEMPERATURE_effect.png",width = 6, height = 4, units = "in", res = 300)
+p1<-ZOI_Temperature_italics%>%
+  group_by(Treatment)%>%
+  ggplot(aes(x=Temperature,y=mean_area_all))+
+  geom_bar(aes(color = Treatment, 
+               fill = Treatment),
+           stat = "identity", 
+           position = position_dodge(1),
+           width = 0.8) +
+  scale_shape_identity(guide="legend")+
+  facet_grid(~Treatment,labeller = label_parsed)+
+  geom_errorbar(aes(ymin=mean_area_all - SE_area_all,
+                    ymax=mean_area_all + SE_area_all),
+                width=0.4,position=position_dodge(1),
+                color="black")+
+  ylab(expression("Area of Zone of Inhibition"~(mm^2)~""))+ 
+  xlab("Temperature (˚C)") +
+  #geom_jitter(data=ZOI_Temperature_italics, aes(x=Temperature,y=ZOI_area),#color=ZOI_italic$Technical_Rep,
+   #           position = position_dodge(0.5),size=1)+
+  theme_pubr()+
+  theme(panel.background = element_rect(fill = NA, color = "black"))+
+  theme(panel.spacing = unit(0.6, "lines"))+
+  theme(text = element_text(size=12),
+        axis.text.x = element_text(size=(10)),
+        axis.text.y = element_text(size=10))+
+  theme(legend.position = "none")
+p1
+dev.off()
+
+
+png(filename = "ZOI_Age_effect.png",width = 6, height = 4, units = "in", res = 300)
+p2<-ZOI_Age_italics%>%
+  group_by(Treatment)%>%
+  ggplot(aes(x=Age,y=mean_area_all))+
+  geom_bar(aes(color = Treatment, 
+               fill = Treatment),
+           stat = "identity", 
+           position = position_dodge(1),
+           width = 0.8) +
+  scale_shape_identity(guide="legend")+
+  facet_grid(~Treatment,labeller = label_parsed)+
+  geom_errorbar(aes(ymin=mean_area_all - SE_area_all,
+                    ymax=mean_area_all + SE_area_all),
+                width=0.4,position=position_dodge(1),
+                color="black")+
+  ylab(expression("Area of Zone of Inhibition"~(mm^2)~""))+ 
+  xlab("Adult Age (days)") +
+  #geom_jitter(data=ZOI_Temperature_italics, aes(x=Temperature,y=ZOI_area),#color=ZOI_italic$Technical_Rep,
+  #           position = position_dodge(0.5),size=1)+
+  theme_pubr()+
+  theme(panel.background = element_rect(fill = NA, color = "black"))+
+  theme(panel.spacing = unit(0.6, "lines"))+
+  theme(text = element_text(size=12),
+        axis.text.x = element_text(size=(10)),
+        axis.text.y = element_text(size=10))+
+  theme(legend.position = "none")
+p2
+dev.off()
+
+png(filename = "ZOI_Treatment_effect.png",width = 6, height = 4, units = "in", res = 300)
+p3<-ZOI_Treatment_italics%>%
+  group_by(Treatment)%>%
+  ggplot(aes(x=Treatment,y=mean_area_all))+
+  geom_bar(aes(color = Treatment, 
+               fill = Treatment),
+           stat = "identity", 
+           position = position_dodge(1),
+           width = 0.8) +
+  scale_shape_identity(guide="legend")+
+  #facet_grid(~Treatment,labeller = label_parsed)+
+  geom_errorbar(aes(ymin=mean_area_all - SE_area_all,
+                    ymax=mean_area_all + SE_area_all),
+                width=0.4,position=position_dodge(1),
+                color="black")+
+  ylab(expression("Area of Zone of Inhibition"~(mm^2)~""))+ 
+  xlab("Immune Treatment") +
+  scale_x_discrete(limits = c("Naïve","LB","E_coli","M_luteus"),labels=c("Naïve","Injury",bquote(italic("E. coli")), bquote(italic("M. luteus"))))+
+    #geom_jitter(data=ZOI_Temperature_italics, aes(x=Temperature,y=ZOI_area),#color=ZOI_italic$Technical_Rep,
+  #           position = position_dodge(0.5),size=1)+
+  theme_pubr()+
+  theme(panel.background = element_rect(fill = NA, color = "black"))+
+  theme(panel.spacing = unit(0.6, "lines"))+
+  theme(text = element_text(size=12),
+        axis.text.x = element_text(size=(10)),
+        axis.text.y = element_text(size=10))+
+  theme(legend.position = "none")
+p3
+dev.off()
+
+library(ggarrange)
+p123 <- ggarrange(p1,p2,p3,
+                  ncol = 3, nrow = 1,
+                  heights = c(12,12,12),
+                  labels = c("A", "B", "C"))
+p123
+
+png(filename = "ZOI_all_effects.png",width = 12, height =5, units = "in", res = 300)
+p123
+dev.off()
+
+
+
+
+# load the table
+library("png")
+ZOItable<- readPNG("ZOI_table_092723.png")
+head(ZOItable)
+
+## if not already installed
+install.packages("jpeg")  
+
+library(jpeg)
+
+#?readJPEG()
+
+img <- readJPEG("ZOI_table_092723jpeg.jpeg", native = TRUE)
+#plot(ZOItable)
+#this will display your image to test you read it correctly
+if(exists("rasterImage")){
+  plot(1:2, type='n')
+  rasterImage(img,1,1,2,2)
+}
+
+p123 <- ggarrange(p1,p2,p3,
+                  ncol = 3, nrow = 1,
+                  heights = c(12,12,12),
+                  labels = c("A", "B", "C"))
+p123

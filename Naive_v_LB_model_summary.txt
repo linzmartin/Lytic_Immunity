@@ -5,37 +5,37 @@ Formula: log(ZOI_area) ~ Temperature_centered + Age_centered + Treatment +
    Data: Naive_and_LB
 
      AIC      BIC   logLik deviance df.resid 
-   341.4    362.2   -163.7    327.4      138 
+   344.1    365.0   -165.0    330.1      140 
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--3.3138 -0.4080  0.0920  0.6016  2.1822 
+-3.3414 -0.4083  0.0909  0.5961  2.1915 
 
 Random effects:
  Groups           Name        Variance Std.Dev.
- Seeded_plates_OD (Intercept) 0.1084   0.3292  
- Residual                     0.5210   0.7218  
-Number of obs: 145, groups:  Seeded_plates_OD, 6
+ Seeded_plates_OD (Intercept) 0.1089   0.3301  
+ Residual                     0.5145   0.7173  
+Number of obs: 147, groups:  Seeded_plates_OD, 6
 
 Fixed effects:
-                                   Estimate Std. Error        df t value
-(Intercept)                         2.05248    0.15971   8.56232  12.851
-Temperature_centered                0.15400    0.06176 141.40428   2.493
-Age_centered                        0.09755    0.06079 141.77018   1.605
-TreatmentLB                        -0.03197    0.12199 140.58402  -0.262
-Temperature_centered:Age_centered  -0.11199    0.05950 140.67001  -1.882
-                                  Pr(>|t|)    
-(Intercept)                       6.84e-07 ***
-Temperature_centered                0.0138 *  
-Age_centered                        0.1108    
-TreatmentLB                         0.7937    
-Temperature_centered:Age_centered   0.0619 .  
+                                    Estimate Std. Error         df t value
+(Intercept)                        -2.457865   1.505102 144.424295  -1.633
+Temperature_centered                0.148203   0.050811 142.285733   2.917
+Age_centered                        0.321677   0.160567 142.671285   2.003
+TreatmentLB                        -0.036369   0.120594 142.478026  -0.302
+Temperature_centered:Age_centered  -0.010238   0.005454 142.515844  -1.877
+                                  Pr(>|t|)   
+(Intercept)                        0.10464   
+Temperature_centered               0.00411 **
+Age_centered                       0.04703 * 
+TreatmentLB                        0.76341   
+Temperature_centered:Age_centered  0.06257 . 
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Correlation of Fixed Effects:
             (Intr) Tmprt_ Ag_cnt TrtmLB
-Tmprtr_cntr -0.003                     
-Age_centerd -0.004  0.058              
-TreatmentLB -0.362  0.029  0.052       
-Tmprtr_c:A_ -0.023 -0.058  0.072  0.091
+Tmprtr_cntr -0.993                     
+Age_centerd -0.817  0.823              
+TreatmentLB  0.017 -0.059 -0.093       
+Tmprtr_c:A_  0.812 -0.822 -0.997  0.098

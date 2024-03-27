@@ -1,6 +1,6 @@
 #lytic immunity - ZOI analysis
 
-#last updated: 06/30/23 LEM
+#last updated: 09/27/23 LEM
 ################################################
 # clear existing workspace
 rm(list = ls(all = TRUE))
@@ -39,7 +39,7 @@ library(ggpubr)
 
 
 #import the data:
-ZOI_data <- read_xlsx("ZOI_assay_sample_log_082923_LEM.xlsx")
+ZOI_data <- read_xlsx("ZOI_assay_sample_log_092723_LEM.xlsx")
 
 str(ZOI_data)
 head(ZOI_data)
@@ -75,12 +75,6 @@ names(agelabs)<-c("1","5","10","15","NA")
 treatlabs <-c("E. coli","LB","M. luteus","Naïve","Control")
 names(treatlabs)<-c("E_coli","LB","M_luteus","Naïve","Water_control")
 
-#relevel treatment to make Naive come first:
-
-#ZOI_data <- ZOI_data %>%
- # mutate(Treatment = fct_relevel(Treatment, 
-  #                               "Naïve","LB","E_coli","M_luteus","Water_control","NA"))
-#ZOI_data$Treatment <- relevel(ZOI_data$Treatment, ref="Naïve")
 levels(ZOI_data$Treatment)
 levels(ZOI_data$Age)
 
@@ -229,7 +223,7 @@ ZOI_data %>% ggplot(aes(x=Temperature,y=Diameter_avg))+
 
 ##############################################################
 
-png(filename = "ZOI_diameter_summary_081123.png", width = 12, height = 11, units = "in", res = 300)
+png(filename = "ZOI_diameter_summary_092723.png", width = 12, height = 11, units = "in", res = 300)
 ZOI_summary_bioreps %>%
   ggplot(aes(x=Treatment,y=mean_diameter_all,color=Treatment))+
   geom_bar(aes(fill=Treatment),color="black",
@@ -247,7 +241,7 @@ ZOI_summary_bioreps %>%
   theme(legend.position = "none")
 dev.off()
 
-png(filename = "ZOI_area_summary_081123.png", width = 12, height = 11, units = "in", res = 300)
+png(filename = "ZOI_area_summary_092723.png", width = 12, height = 11, units = "in", res = 300)
 ZOI_summary_bioreps %>%
   ggplot(aes(x=Treatment,y=mean_area_all,color=Treatment))+
   geom_bar(aes(fill=Treatment),color="black",
@@ -265,7 +259,7 @@ ZOI_summary_bioreps %>%
   theme(legend.position = "none")
 dev.off()
 
-png(filename = "ZOI_area_summary_081123_ageattop.png", width = 12, height = 11, units = "in", res = 300)
+png(filename = "ZOI_area_summary_092723_ageattop.png", width = 12, height = 11, units = "in", res = 300)
 ZOI_summary_bioreps %>%
   ggplot(aes(x=Treatment,y=mean_area_all,color=Treatment))+
   geom_bar(aes(fill=Treatment),color="black",
@@ -408,7 +402,7 @@ ZOI_summary_bioreps_italic$Temperature <- factor(ZOI_summary_bioreps_italic$Temp
 
 
 #mean diameter with jitter for points:
-png(filename = "ZOI_diameter_jitter_083023.png", width = 5, height = 4, units = "in", res = 300)
+png(filename = "ZOI_diameter_jitter_092723.png", width = 5, height = 4, units = "in", res = 300)
 ZOI_summary_bioreps_italic %>%
   group_by(Treatment)%>%
   ggplot(aes(x=Age,y=mean_diameter_all))+
@@ -437,7 +431,7 @@ ZOI_summary_bioreps_italic %>%
 dev.off()
 
 #mean area with jitter for points:
-png(filename = "ZOI_area_jitter_083023.png", width = 5, height = 4, units = "in", res = 300)
+png(filename = "ZOI_area_jitter_092723.png", width = 5, height = 4, units = "in", res = 300)
 ZOI_summary_bioreps_italic %>%
   group_by(Treatment)%>%
   ggplot(aes(x=Age,y=mean_area_all))+
@@ -503,7 +497,7 @@ ZOI_summary_bioreps_italic$Temperature <- factor(ZOI_summary_bioreps_italic$Temp
 
 ####
 
-png(filename = "ZOI_diameter_jitter_083023_ageattop.png", width = 5, height = 4, units = "in", res = 300)
+png(filename = "ZOI_diameter_jitter_092723_ageattop.png", width = 5, height = 4, units = "in", res = 300)
 ZOI_summary_bioreps_italic %>%
   group_by(Treatment)%>%
   ggplot(aes(x=Temperature,y=mean_diameter_all))+
@@ -532,7 +526,7 @@ ZOI_summary_bioreps_italic %>%
 dev.off()
 
 #mean area with jitter for points:
-png(filename = "ZOI_area_jitter_083023_ageattop.png", width = 5, height = 4, units = "in", res = 300)
+png(filename = "ZOI_area_jitter_092723_ageattop.png", width = 5, height = 4, units = "in", res = 300)
 ZOI_summary_bioreps_italic %>%
   group_by(Treatment)%>%
   ggplot(aes(x=Temperature,y=mean_area_all))+

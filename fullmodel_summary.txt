@@ -1,0 +1,74 @@
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: 
+log(ZOI_area) ~ Treatment + poly(Temperature_centered, 2) + poly(Age_centered,  
+    2) + Temperature_centered * Treatment + poly(Temperature_centered,  
+    2) * poly(Age_centered, 2) + (1 | Plate_ID_Total) + (1 |      Batch_Number)
+   Data: ZOI_data
+
+REML criterion at convergence: 602.3
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.1657 -0.5074  0.0956  0.5328  2.4771 
+
+Random effects:
+ Groups         Name        Variance Std.Dev.
+ Plate_ID_Total (Intercept) 0.07937  0.2817  
+ Batch_Number   (Intercept) 0.13644  0.3694  
+ Residual                   0.40322  0.6350  
+Number of obs: 303, groups:  Plate_ID_Total, 37; Batch_Number, 6
+
+Fixed effects:
+                                                       Estimate Std. Error
+(Intercept)                                             2.05581    0.17702
+TreatmentLB                                            -0.02568    0.10839
+TreatmentE_coli                                         0.85587    0.10503
+TreatmentM_luteus                                       0.80798    0.10613
+poly(Temperature_centered, 2)1                          3.78233    1.33128
+poly(Temperature_centered, 2)2                         -2.92968    0.76710
+poly(Age_centered, 2)1                                  1.48265    0.73143
+poly(Age_centered, 2)2                                 -0.76309    0.72054
+TreatmentLB:Temperature_centered                       -0.14991    0.10769
+TreatmentE_coli:Temperature_centered                   -0.45804    0.10689
+TreatmentM_luteus:Temperature_centered                 -0.26683    0.10516
+poly(Temperature_centered, 2)1:poly(Age_centered, 2)1 -25.67318   11.91202
+poly(Temperature_centered, 2)2:poly(Age_centered, 2)1 -10.80045   13.01240
+poly(Temperature_centered, 2)1:poly(Age_centered, 2)2  24.79508   12.00990
+poly(Temperature_centered, 2)2:poly(Age_centered, 2)2  24.20288   12.34060
+                                                             df t value Pr(>|t|)
+(Intercept)                                             7.05988  11.613 7.42e-06
+TreatmentLB                                           263.19574  -0.237 0.812911
+TreatmentE_coli                                       257.79375   8.149 1.60e-14
+TreatmentM_luteus                                     262.76052   7.613 4.81e-13
+poly(Temperature_centered, 2)1                        257.86150   2.841 0.004854
+poly(Temperature_centered, 2)2                        286.04186  -3.819 0.000164
+poly(Age_centered, 2)1                                286.05244   2.027 0.043583
+poly(Age_centered, 2)2                                284.86191  -1.059 0.290475
+TreatmentLB:Temperature_centered                      255.67246  -1.392 0.165117
+TreatmentE_coli:Temperature_centered                  257.91763  -4.285 2.58e-05
+TreatmentM_luteus:Temperature_centered                253.55988  -2.537 0.011767
+poly(Temperature_centered, 2)1:poly(Age_centered, 2)1 283.14655  -2.155 0.031986
+poly(Temperature_centered, 2)2:poly(Age_centered, 2)1 284.08660  -0.830 0.407229
+poly(Temperature_centered, 2)1:poly(Age_centered, 2)2 281.97609   2.065 0.039880
+poly(Temperature_centered, 2)2:poly(Age_centered, 2)2 283.09207   1.961 0.050831
+                                                         
+(Intercept)                                           ***
+TreatmentLB                                              
+TreatmentE_coli                                       ***
+TreatmentM_luteus                                     ***
+poly(Temperature_centered, 2)1                        ** 
+poly(Temperature_centered, 2)2                        ***
+poly(Age_centered, 2)1                                *  
+poly(Age_centered, 2)2                                   
+TreatmentLB:Temperature_centered                         
+TreatmentE_coli:Temperature_centered                  ***
+TreatmentM_luteus:Temperature_centered                *  
+poly(Temperature_centered, 2)1:poly(Age_centered, 2)1 *  
+poly(Temperature_centered, 2)2:poly(Age_centered, 2)1    
+poly(Temperature_centered, 2)1:poly(Age_centered, 2)2 *  
+poly(Temperature_centered, 2)2:poly(Age_centered, 2)2 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+fit warnings:
+fixed-effect model matrix is rank deficient so dropping 1 column / coefficient

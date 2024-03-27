@@ -1,0 +1,33 @@
+Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+Formula: log(ZOI_area) ~ poly(Temperature_centered, 2) + poly(Age_centered,  
+    2) + (1 | Plate_ID_Total)
+   Data: Mlut_ZOI
+
+REML criterion at convergence: 99.3
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.64631 -0.40428 -0.05194  0.46192  1.93683 
+
+Random effects:
+ Groups         Name        Variance Std.Dev.
+ Plate_ID_Total (Intercept) 0.2161   0.4648  
+ Residual                   0.1104   0.3323  
+Number of obs: 76, groups:  Plate_ID_Total, 32
+
+Fixed effects:
+                               Estimate Std. Error       df t value Pr(>|t|)    
+(Intercept)                     2.76426    0.09213 32.66575  30.004  < 2e-16 ***
+poly(Temperature_centered, 2)1 -0.87894    0.37335 49.10208  -2.354 0.022607 *  
+poly(Temperature_centered, 2)2 -1.55572    0.46148 60.42240  -3.371 0.001310 ** 
+poly(Age_centered, 2)1          1.46874    0.41196 53.82891   3.565 0.000772 ***
+poly(Age_centered, 2)2         -0.90924    0.39931 52.49625  -2.277 0.026886 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+            (Intr) p(T_,2)1 p(T_,2)2 p(A_,2)1
+ply(Tm_,2)1  0.033                           
+ply(Tm_,2)2 -0.013 -0.066                    
+ply(Ag_,2)1 -0.012  0.037   -0.276           
+ply(Ag_,2)2  0.020  0.040    0.049    0.004  

@@ -1,0 +1,47 @@
+Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+Formula: log(ZOI_area) ~ poly(Temperature_centered, 2) + poly(Age_centered,  
+    2) + poly(Temperature_centered * Age_centered, 2) + (1 |  
+    Sample_ID) + (1 | Batch_Number)
+   Data: Ecoli_ZOI
+
+REML criterion at convergence: 160.8
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-1.69928 -0.24993  0.06067  0.31336  1.44204 
+
+Random effects:
+ Groups       Name        Variance Std.Dev.
+ Sample_ID    (Intercept) 0.3676   0.6063  
+ Batch_Number (Intercept) 0.1064   0.3263  
+ Residual                 0.1593   0.3991  
+Number of obs: 80, groups:  Sample_ID, 68; Batch_Number, 6
+
+Fixed effects:
+                                              Estimate Std. Error      df t value
+(Intercept)                                     2.9226     0.1617  6.3828  18.073
+poly(Temperature_centered, 2)1                 -2.5415     0.8742 56.7653  -2.907
+poly(Temperature_centered, 2)2                 -3.4931     1.1404 58.9047  -3.063
+poly(Age_centered, 2)1                         -0.8594     0.8471 54.6157  -1.015
+poly(Age_centered, 2)2                         -2.3085     1.4997 56.0312  -1.539
+poly(Temperature_centered * Age_centered, 2)1  -2.5579     0.9863 54.2118  -2.593
+poly(Temperature_centered * Age_centered, 2)2   1.9394     1.7214 55.2124   1.127
+                                              Pr(>|t|)    
+(Intercept)                                   1.01e-06 ***
+poly(Temperature_centered, 2)1                 0.00519 ** 
+poly(Temperature_centered, 2)2                 0.00330 ** 
+poly(Age_centered, 2)1                         0.31477    
+poly(Age_centered, 2)2                         0.12935    
+poly(Temperature_centered * Age_centered, 2)1  0.01219 *  
+poly(Temperature_centered * Age_centered, 2)2  0.26476    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+            (Intr) p(T_,2)1 p(T_,2)2 p(A_,2)1 p(A_,2)2 p(T_*A_,2)1
+ply(Tm_,2)1 -0.022                                                
+ply(Tm_,2)2 -0.013 -0.160                                         
+ply(Ag_,2)1 -0.005  0.149    0.029                                
+ply(Ag_,2)2  0.004 -0.150    0.571    0.114                       
+p(T_*A_,2)1 -0.012 -0.034    0.402    0.262    0.532              
+p(T_*A_,2)2 -0.013  0.310   -0.678   -0.088   -0.832   -0.491     

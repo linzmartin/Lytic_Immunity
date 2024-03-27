@@ -1,0 +1,8 @@
+                                                Sum Sq   Mean Sq NumDF    DenDF
+poly(Temperature_centered, 2)                3.2325261 1.6162631     2 61.08856
+poly(Age_centered, 2)                        0.4889056 0.2444528     2 58.45129
+poly(Temperature_centered * Age_centered, 2) 1.0667067 0.5333533     2 58.54098
+                                               F value       Pr(>F)
+poly(Temperature_centered, 2)                10.143577 0.0001570979
+poly(Age_centered, 2)                         1.534316 0.2241595971
+poly(Temperature_centered * Age_centered, 2)  3.347648 0.0420177749

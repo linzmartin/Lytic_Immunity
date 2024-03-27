@@ -1,31 +1,28 @@
-Linear mixed model fit by maximum likelihood . t-tests use Satterthwaite's
-  method [lmerModLmerTest]
-Formula: 
-log(ZOI_area) ~ Temperature_centered + Age_centered + (1 | Seeded_plates_OD)
+Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+Formula: log(ZOI_area) ~ Temperature_centered + Age_centered + (1 | Seeded_plates_OD)
    Data: LB_ZOI
 
-     AIC      BIC   logLik deviance df.resid 
-   164.6    175.9    -77.3    154.6       66 
+REML criterion at convergence: 162.8
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--2.7439 -0.3706  0.1500  0.5506  2.2154 
+-2.6871 -0.3930  0.1316  0.5337  2.1917 
 
 Random effects:
  Groups           Name        Variance Std.Dev.
- Seeded_plates_OD (Intercept) 0.07138  0.2672  
- Residual                     0.47603  0.6900  
+ Seeded_plates_OD (Intercept) 0.09105  0.3017  
+ Residual                     0.49188  0.7013  
 Number of obs: 71, groups:  Seeded_plates_OD, 6
 
 Fixed effects:
                      Estimate Std. Error       df t value Pr(>|t|)    
-(Intercept)           1.98203    0.14093  6.95394  14.064 2.31e-06 ***
-Temperature_centered  0.04459    0.08446 68.37605   0.528    0.599    
-Age_centered          0.08812    0.08308 67.92322   1.061    0.293    
+(Intercept)           1.99007    0.15337  5.78070  12.976 1.71e-05 ***
+Temperature_centered  0.04489    0.08495 65.92938   0.528    0.599    
+Age_centered          0.08898    0.08491 65.53020   1.048    0.299    
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Correlation of Fixed Effects:
             (Intr) Tmprt_
-Tmprtr_cntr 0.038        
-Age_centerd 0.040  0.178 
+Tmprtr_cntr 0.042        
+Age_centerd 0.048  0.178 

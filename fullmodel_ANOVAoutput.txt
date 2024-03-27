@@ -1,0 +1,21 @@
+                                                       Sum Sq   Mean Sq NumDF
+Treatment                                           51.574801 17.191600     3
+poly(Temperature_centered, 2)                        9.606282  4.803141     2
+poly(Age_centered, 2)                                2.257700  1.128850     2
+Treatment:Temperature_centered                       7.938132  2.646044     3
+poly(Temperature_centered, 2):poly(Age_centered, 2)  5.359319  1.339830     4
+Temperature_centered                                       NA        NA    NA
+                                                       DenDF   F value
+Treatment                                           267.6640 42.635811
+poly(Temperature_centered, 2)                       277.2212 11.911431
+poly(Age_centered, 2)                               284.7077  2.799561
+Treatment:Temperature_centered                      263.0098  6.562298
+poly(Temperature_centered, 2):poly(Age_centered, 2) 283.0382  3.322743
+Temperature_centered                                      NA        NA
+                                                          Pr(>F)
+Treatment                                           1.487753e-22
+poly(Temperature_centered, 2)                       1.089526e-05
+poly(Age_centered, 2)                               6.251250e-02
+Treatment:Temperature_centered                      2.707142e-04
+poly(Temperature_centered, 2):poly(Age_centered, 2) 1.111094e-02
+Temperature_centered                                          NA
