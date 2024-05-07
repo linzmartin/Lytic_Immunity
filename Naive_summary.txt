@@ -1,7 +1,5 @@
-Linear mixed model fit by REML. t-tests use Satterthwaite's method [
-lmerModLmerTest]
-Formula: 
-log(ZOI_area) ~ Temperature_centered + Age_centered + (1 | Batch_Number)
+Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+Formula: log(ZOI_area) ~ Temperature_centered + Age_centered + (1 | Batch_Number)
    Data: Naive_ZOI
 
 REML criterion at convergence: 188.7

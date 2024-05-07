@@ -1,0 +1,12 @@
+
+	Shapiro-Wilk normality test
+
+data:  Ecoli_ZOI$Injected_CFU_calculated_dose
+W = 0.94813, p-value = 0.003654
+
+
+	Shapiro-Wilk normality test
+
+data:  Ecoli_ZOI$ZOI_area
+W = 0.88408, p-value = 2.754e-06
+

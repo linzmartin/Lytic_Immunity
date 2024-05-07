@@ -1,0 +1,10 @@
+
+	Spearman's rank correlation rho
+
+data:  Ecoli_ZOI$Injected_CFU_calculated_dose and Ecoli_ZOI$ZOI_area
+S = 82843, p-value = 0.2539
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+       rho 
+-0.1325025 
+

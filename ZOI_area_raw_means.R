@@ -1,3 +1,112 @@
+#antimicrobial activity
+
+#raw data means (not estimated marginal means) without water control
+
+#last updated: 05/07/24 LEM
+################################################
+# clear existing workspace
+rm(list = ls(all = TRUE))
+graphics.off()
+shell("cls")
+
+#set wd to your project folder
+getwd() #check working directory
+
+#sessionInfo()
+###########################
+
+
+#####################
+#load libraries needed:
+library(readxl)
+library(writexl)
+library(EnvStats)
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(rstatix)
+library(car) 
+library(ggpubr)
+library(lme4)
+library(broom)
+library(rcompanion)
+library(modelr)
+library(emmeans)
+library(lmerTest)
+library(effectsize)
+library(ggsci)
+library(multcompView)
+library(emmeans)
+library(multcomp)
+#######################################################
+#import the data and clean it up:
+
+
+#import the data:
+ZOI_data <- read_xlsx("Antimicrobial-activity-rawdata_LEM042524.xlsx")
+
+str(ZOI_data)
+head(ZOI_data)
+
+#format the data: 
+#data is numeric / continuous
+ZOI_data$Age <- as.numeric(ZOI_data$Age)
+ZOI_data$Temperature <- as.numeric(ZOI_data$Temperature)
+ZOI_data$Treatment <- as.factor(ZOI_data$Treatment)
+ZOI_data$Diameter_avg <- as.numeric(ZOI_data$Diameter_avg)
+ZOI_data$ZOI_area <- as.numeric(ZOI_data$ZOI_area)
+str(ZOI_data)
+
+ZOI_data$Injected_CFU_calculated_dose <- as.numeric(ZOI_data$Injected_CFU_calculated_dose)
+ZOI_data$Infectious_Dose_for_Plates <- as.numeric(ZOI_data$Infectious_Dose_for_Plates)
+
+ZOI_data$Sample_ID <- as.factor(ZOI_data$Sample_ID)
+
+levels(ZOI_data$Treatment)
+str(ZOI_data)
+
+#relevel treatment to make Naive come first:
+ZOI_data <- ZOI_data %>%
+  mutate(Treatment = fct_relevel(Treatment, 
+                                 "Naïve","LB","E_coli","M_luteus","Water_control","NA"))
+
+#omit NA treatments (no sample)
+ZOI_data <- subset(ZOI_data, Treatment != "NA")
+
+#subset data to exclude samples that did not have enough:
+#remove NA values for temp and age
+#omit NA treatments (no sample)
+ZOI_data <- subset(ZOI_data, Enough!= 0)
+
+#omit water group:
+ZOI_wateronly <- subset(ZOI_data,Treatment == "Water_control")
+ZOI_data <- subset(ZOI_data, Treatment != "Water_control")
+
+str(ZOI_data)
+
+##################
+
+#center temp and aged data so that mean approximates zero intercept in model later:
+
+#now center (take average and then subtract individ value):
+ZOI_data$Temperature_centered <- scale(ZOI_data$Temperature, center=TRUE,scale=TRUE)
+ZOI_data$Age_centered <- scale(ZOI_data$Age, center=TRUE,scale=TRUE)
+
+str(ZOI_data)
+
+#change character type to just numeric instead of scaled variable
+ZOI_data$Temperature_centered <- as.numeric(ZOI_data$Temperature_centered)
+ZOI_data$Age_centered <- as.numeric(ZOI_data$Age_centered)
+
+str(ZOI_data)
+
+#round digits for each:
+ZOI_data$Temperature_centered <- round(ZOI_data$Temperature_centered, 2)
+str(ZOI_data$Temperature_centered)
+ZOI_data$Age_centered <-round(ZOI_data$Age_centered, 2)
+str(ZOI_data$Age_centered)
+
+###############################
 ZOI_summary <- ZOI_data %>%
   group_by(Treatment,Age_centered,Temperature_centered) %>%
   reframe(#Temperature = Temperature, 

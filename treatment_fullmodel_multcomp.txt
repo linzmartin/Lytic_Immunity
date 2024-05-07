@@ -1,0 +1,23 @@
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = log(ZOI_area) ~ Treatment + poly(Temperature_centered, 
+    2) + poly(Age_centered, 2) + Temperature_centered * Treatment + 
+    poly(Temperature_centered, 2) * poly(Age_centered, 2) + (1 | 
+    Plate_ID_Total) + (1 | Batch_Number), data = ZOI_data, REML = TRUE)
+
+Linear Hypotheses:
+                       Estimate Std. Error z value Pr(>|z|)    
+LB - Naïve == 0        -0.02568    0.10839  -0.237    0.995    
+E_coli - Naïve == 0     0.85587    0.10503   8.149   <1e-06 ***
+M_luteus - Naïve == 0   0.80798    0.10613   7.613   <1e-06 ***
+E_coli - LB == 0        0.88155    0.10645   8.282   <1e-06 ***
+M_luteus - LB == 0      0.83366    0.10753   7.753   <1e-06 ***
+M_luteus - E_coli == 0 -0.04789    0.10551  -0.454    0.969    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Adjusted p values reported -- single-step method)
+

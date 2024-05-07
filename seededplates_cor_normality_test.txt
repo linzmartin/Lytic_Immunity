@@ -1,0 +1,12 @@
+
+	Shapiro-Wilk normality test
+
+data:  ZOI_data$Infectious_Dose_for_Plates
+W = 0.77832, p-value < 2.2e-16
+
+
+	Shapiro-Wilk normality test
+
+data:  ZOI_data$ZOI_area
+W = 0.81482, p-value < 2.2e-16
+

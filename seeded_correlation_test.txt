@@ -1,0 +1,10 @@
+
+	Spearman's rank correlation rho
+
+data:  ZOI_data$Infectious_Dose_for_Plates and ZOI_data$ZOI_area
+S = 3267288, p-value = 1.642e-07
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.2952817 
+

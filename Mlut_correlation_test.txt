@@ -1,0 +1,10 @@
+
+	Spearman's rank correlation rho
+
+data:  Mlut_ZOI$Injected_CFU_calculated_dose and Mlut_ZOI$ZOI_area
+S = 48987, p-value = 0.07329
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.2123792 
+

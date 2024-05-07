@@ -172,8 +172,8 @@ ZOI_sum_allgroups_italic %>%
   xlab("Age (days)") +
   theme_pubr()+
   theme(legend.position = "none")+
-  geom_jitter(data=ZOI_italic, aes(x=Age,y=ZOI_area),#color=ZOI_italic$Technical_Rep,
-              position = position_dodge(0.5),size=1)+
+  #geom_jitter(data=ZOI_italic, aes(x=Age,y=ZOI_area),#color=ZOI_italic$Technical_Rep,
+   #           position = position_dodge(0.5),size=1)+
   scale_color_manual(name="Treatment",
                      values=c("#F8766D","#7CAE00","#00BFC4","#C77CFF","#999999"))+
   scale_fill_manual(name="Treatment",
@@ -221,8 +221,8 @@ ZOI_sum_allgroups_italic %>%
                      values=c("#F8766D","#7CAE00","#00BFC4","#C77CFF","#999999"))+
   scale_fill_manual(name="Treatment",
                     values=c("#F8766D","#7CAE00","#00BFC4","#C77CFF","#999999"))+
-    geom_jitter(data=ZOI_italic, aes(x=Temperature,y=ZOI_area),#color=ZOI_italic$Technical_Rep,
-              position = position_dodge(0.5),size=1)+
+    #geom_jitter(data=ZOI_italic, aes(x=Temperature,y=ZOI_area),#color=ZOI_italic$Technical_Rep,
+     #         position = position_dodge(0.5),size=1)+
   theme(panel.background = element_rect(fill = NA, color = "black"))+
   theme(panel.spacing = unit(0.5, "lines"))
 dev.off()
@@ -274,13 +274,6 @@ ZOI_Age_italics$Treatment <- factor(ZOI_Age_italics$Treatment,    # Change facto
                                             labels = c("Naïve","Injury",
                                                        "italic(`E. coli`)",
                                                        "italic(`M. luteus`)"))
-
-ZOI_Treatment_italics$Treatment <- factor(ZOI_Treatment_italics$Treatment,    # Change factor labels
-                                          labels = c("Naïve","LB",
-                                                     "E_coli",
-                                                     "M_luteus"))
-
-
 
 png(filename = "ZOI_TEMPERATURE_effect.png",width = 6, height = 4, units = "in", res = 300)
 p1<-ZOI_Temperature_italics%>%
@@ -358,12 +351,17 @@ p3<-ZOI_Treatment_italics%>%
                 color="black")+
   ylab(expression("Area of Zone of Inhibition"~(mm^2)~""))+ 
   xlab("Immune Treatment") +
-  scale_x_discrete(limits = c("Naïve","LB","E_coli","M_luteus"),labels=c("Naïve","Injury",bquote(italic("E. coli")), bquote(italic("M. luteus"))))+
+  scale_x_discrete(limits = c("Naïve","LB","E_coli","M_luteus","Water_control"),labels=c("Naïve","Injury",bquote(italic("E. coli")), bquote(italic("M. luteus")),"Water"))+
     #geom_jitter(data=ZOI_Temperature_italics, aes(x=Temperature,y=ZOI_area),#color=ZOI_italic$Technical_Rep,
   #           position = position_dodge(0.5),size=1)+
   theme_pubr()+
+  scale_color_manual(name="Treatment",
+                     values=c("#F8766D","#7CAE00","#00BFC4","#C77CFF","#999999"))+
+  scale_fill_manual(name="Treatment",
+                    values=c("#F8766D","#7CAE00","#00BFC4","#C77CFF","#999999"))+
   theme(panel.background = element_rect(fill = NA, color = "black"))+
   theme(panel.spacing = unit(0.6, "lines"))+
+  scale_y_continuous(limits=c(0,40))+
   theme(text = element_text(size=12),
         axis.text.x = element_text(size=(10)),
         axis.text.y = element_text(size=10))+
@@ -371,42 +369,5 @@ p3<-ZOI_Treatment_italics%>%
 p3
 dev.off()
 
-library(ggarrange)
-p123 <- ggarrange(p1,p2,p3,
-                  ncol = 3, nrow = 1,
-                  heights = c(12,12,12),
-                  labels = c("A", "B", "C"))
-p123
-
-png(filename = "ZOI_all_effects.png",width = 12, height =5, units = "in", res = 300)
-p123
-dev.off()
 
 
-
-
-# load the table
-library("png")
-ZOItable<- readPNG("ZOI_table_092723.png")
-head(ZOItable)
-
-## if not already installed
-install.packages("jpeg")  
-
-library(jpeg)
-
-#?readJPEG()
-
-img <- readJPEG("ZOI_table_092723jpeg.jpeg", native = TRUE)
-#plot(ZOItable)
-#this will display your image to test you read it correctly
-if(exists("rasterImage")){
-  plot(1:2, type='n')
-  rasterImage(img,1,1,2,2)
-}
-
-p123 <- ggarrange(p1,p2,p3,
-                  ncol = 3, nrow = 1,
-                  heights = c(12,12,12),
-                  labels = c("A", "B", "C"))
-p123
